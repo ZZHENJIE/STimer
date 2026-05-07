@@ -1,3 +1,4 @@
 .cache
 build
 .clangd
+.DS_Store
