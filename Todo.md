@@ -1,3 +1,3 @@
 - [ ] 添加布局器 LinearLayout 水平/垂直依次排列 GridLayout 网格布局
-- [ ] 添加libcurl网络模块
+- [x] 添加libcurl网络模块
 - [ ] 添加文字与音频支持

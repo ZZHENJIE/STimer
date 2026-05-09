@@ -100,6 +100,133 @@ Request HttpClient::post(const std::string& url, const std::string& data, Callba
     return req;
 }
 
+Request HttpClient::put(const std::string& url, const std::string& data, Callback callback) {
+    Request req;
+    req.id = pImpl->next_id++;
+    req.user_data = nullptr;
+
+    auto ctx = std::make_unique<RequestContext>();
+    ctx->id = req.id;
+    ctx->url = url;
+    ctx->method = "PUT";
+    ctx->body = data;
+    ctx->callback = std::move(callback);
+    ctx->response_code = 0;
+
+    ctx->easy = curl_easy_init();
+    setup_easy(ctx->easy, url);
+    curl_easy_setopt(ctx->easy, CURLOPT_CUSTOMREQUEST, "PUT");
+    curl_easy_setopt(ctx->easy, CURLOPT_POSTFIELDS, ctx->body.c_str());
+    curl_easy_setopt(ctx->easy, CURLOPT_WRITEDATA, ctx.get());
+    curl_easy_setopt(ctx->easy, CURLOPT_PRIVATE, ctx.get());
+
+    curl_multi_add_handle(pImpl->multi, ctx->easy);
+    pImpl->requests[ctx->id] = std::move(ctx);
+
+    return req;
+}
+
+Request HttpClient::del(const std::string& url, Callback callback) {
+    Request req;
+    req.id = pImpl->next_id++;
+    req.user_data = nullptr;
+
+    auto ctx = std::make_unique<RequestContext>();
+    ctx->id = req.id;
+    ctx->url = url;
+    ctx->method = "DELETE";
+    ctx->body = "";
+    ctx->callback = std::move(callback);
+    ctx->response_code = 0;
+
+    ctx->easy = curl_easy_init();
+    setup_easy(ctx->easy, url);
+    curl_easy_setopt(ctx->easy, CURLOPT_CUSTOMREQUEST, "DELETE");
+    curl_easy_setopt(ctx->easy, CURLOPT_WRITEDATA, ctx.get());
+    curl_easy_setopt(ctx->easy, CURLOPT_PRIVATE, ctx.get());
+
+    curl_multi_add_handle(pImpl->multi, ctx->easy);
+    pImpl->requests[ctx->id] = std::move(ctx);
+
+    return req;
+}
+
+Request HttpClient::patch(const std::string& url, const std::string& data, Callback callback) {
+    Request req;
+    req.id = pImpl->next_id++;
+    req.user_data = nullptr;
+
+    auto ctx = std::make_unique<RequestContext>();
+    ctx->id = req.id;
+    ctx->url = url;
+    ctx->method = "PATCH";
+    ctx->body = data;
+    ctx->callback = std::move(callback);
+    ctx->response_code = 0;
+
+    ctx->easy = curl_easy_init();
+    setup_easy(ctx->easy, url);
+    curl_easy_setopt(ctx->easy, CURLOPT_CUSTOMREQUEST, "PATCH");
+    curl_easy_setopt(ctx->easy, CURLOPT_POSTFIELDS, ctx->body.c_str());
+    curl_easy_setopt(ctx->easy, CURLOPT_WRITEDATA, ctx.get());
+    curl_easy_setopt(ctx->easy, CURLOPT_PRIVATE, ctx.get());
+
+    curl_multi_add_handle(pImpl->multi, ctx->easy);
+    pImpl->requests[ctx->id] = std::move(ctx);
+
+    return req;
+}
+
+Request HttpClient::head(const std::string& url, Callback callback) {
+    Request req;
+    req.id = pImpl->next_id++;
+    req.user_data = nullptr;
+
+    auto ctx = std::make_unique<RequestContext>();
+    ctx->id = req.id;
+    ctx->url = url;
+    ctx->method = "HEAD";
+    ctx->body = "";
+    ctx->callback = std::move(callback);
+    ctx->response_code = 0;
+
+    ctx->easy = curl_easy_init();
+    setup_easy(ctx->easy, url);
+    curl_easy_setopt(ctx->easy, CURLOPT_NOBODY, 1L);
+    curl_easy_setopt(ctx->easy, CURLOPT_WRITEDATA, ctx.get());
+    curl_easy_setopt(ctx->easy, CURLOPT_PRIVATE, ctx.get());
+
+    curl_multi_add_handle(pImpl->multi, ctx->easy);
+    pImpl->requests[ctx->id] = std::move(ctx);
+
+    return req;
+}
+
+Request HttpClient::options(const std::string& url, Callback callback) {
+    Request req;
+    req.id = pImpl->next_id++;
+    req.user_data = nullptr;
+
+    auto ctx = std::make_unique<RequestContext>();
+    ctx->id = req.id;
+    ctx->url = url;
+    ctx->method = "OPTIONS";
+    ctx->body = "";
+    ctx->callback = std::move(callback);
+    ctx->response_code = 0;
+
+    ctx->easy = curl_easy_init();
+    setup_easy(ctx->easy, url);
+    curl_easy_setopt(ctx->easy, CURLOPT_CUSTOMREQUEST, "OPTIONS");
+    curl_easy_setopt(ctx->easy, CURLOPT_WRITEDATA, ctx.get());
+    curl_easy_setopt(ctx->easy, CURLOPT_PRIVATE, ctx.get());
+
+    curl_multi_add_handle(pImpl->multi, ctx->easy);
+    pImpl->requests[ctx->id] = std::move(ctx);
+
+    return req;
+}
+
 void HttpClient::remove(Request& req) {
     auto it = pImpl->requests.find(req.id);
     if (it != pImpl->requests.end()) {

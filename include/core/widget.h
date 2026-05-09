@@ -4,12 +4,18 @@
 #include "SDL3/SDL_render.h"
 
 class Widget{
-private:
-    float x, y, width, height;
 public:
-    Widget(float x, float y, float width, float height): x(x), y(y), width(width), height(height) {}
+    Widget();
+    void setVisible(bool visible);
+    bool Visible() const;
+    void setPosition(float x, float y);
+    void setSize(float width, float height);
+    SDL_FRect getRect();
+protected:
+    float x, y, width, height;
+    bool visible;
+public:
     virtual ~Widget() = default;
     virtual void update(SDL_Event& event) = 0;
     virtual void render(SDL_Renderer* renderer) = 0;
-    SDL_FRect getRect();
 };

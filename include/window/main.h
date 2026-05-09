@@ -3,8 +3,6 @@
 #include "core/window.h"
 
 class MainWindow : public Window {
-private:
-    float x,y;
 public:
     MainWindow();
     ~MainWindow() = default;

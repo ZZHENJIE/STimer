@@ -30,6 +30,11 @@ public:
 
     Request get(const std::string& url, Callback callback);
     Request post(const std::string& url, const std::string& data, Callback callback);
+    Request put(const std::string& url, const std::string& data, Callback callback);
+    Request del(const std::string& url, Callback callback);
+    Request patch(const std::string& url, const std::string& data, Callback callback);
+    Request head(const std::string& url, Callback callback);
+    Request options(const std::string& url, Callback callback);
     void remove(Request& req);
     void poll();
 

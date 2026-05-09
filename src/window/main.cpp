@@ -1,20 +1,16 @@
 #include "window/main.h"
 #include "SDL3/SDL_log.h"
 #include "core/application.h"
+#include "widget/layout/horizontal.h"
 #include "window/settings.h"
 
-MainWindow::MainWindow() : Window("STimer", 800, 600, SDL_WINDOW_RESIZABLE) {
+MainWindow::MainWindow() : Window("STimer", 800, 600, SDL_WINDOW_RESIZABLE,std::make_unique<HorizontalLayout>()) {
     addWindow(std::make_unique<SettingsWindow>());
-    x = 1.0;
-    y = 1.0;
+    this->resize();
 }
 
 void MainWindow::render(SDL_Renderer* renderer) {
-    this->x += 0.1;
-    this->y += 0.1;
-    SDL_FRect rect = SDL_FRect{x, y, 100, 100};
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    SDL_RenderRect(renderer, &rect);
+
 }
 
 void MainWindow::update(SDL_Event& event) {
