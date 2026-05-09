@@ -1,5 +1,5 @@
 #include "widget/layout/horizontal.h"
-#include "SDL3/SDL_rect.h"
+#include <SDL3/SDL_rect.h>
 
 void HorizontalLayout::calculate() {
     SDL_FRect content = this->Content();

@@ -1,5 +1,5 @@
 #include "core/widget.h"
-#include "SDL3/SDL_rect.h"
+#include <SDL3/SDL_rect.h>
 
 Widget::Widget() : x(0), y(0), width(0), height(0), visible(true) {
 

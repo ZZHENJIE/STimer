@@ -1,6 +1,6 @@
 #include "core/layout.h"
-#include "SDL3/SDL_events.h"
-#include "SDL3/SDL_rect.h"
+#include <SDL3/SDL_events.h>
+#include <SDL3/SDL_rect.h>
 #include "core/widget.h"
 
 Layout::Layout():padding(10), margin(10){

@@ -1,5 +1,5 @@
 #include "window/main.h"
-#include "SDL3/SDL_log.h"
+#include <SDL3/SDL_log.h>
 #include "core/application.h"
 #include "widget/layout/horizontal.h"
 #include "window/settings.h"

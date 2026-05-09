@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SDL3/SDL_events.h"
+#include <SDL3/SDL_events.h>
 #include "core/widget.h"
 #include <string>
 #include <functional>
