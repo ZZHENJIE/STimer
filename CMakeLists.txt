@@ -22,19 +22,9 @@ if(APPLE)
     endmacro()
 
     find_sdl_framework(SDL3 SDL3)
-    find_sdl_framework(SDL3_IMAGE SDL3_image)
-    find_sdl_framework(SDL3_TTF SDL3_ttf)
-    find_sdl_framework(SDL3_MIXER SDL3_mixer)
-    find_sdl_framework(OGG ogg)
-    find_sdl_framework(PNG png)
 
     target_link_libraries(${PROJECT_NAME}
         ${SDL3_LIBRARY}
-        ${SDL3_IMAGE_LIBRARY}
-        ${SDL3_TTF_LIBRARY}
-        ${SDL3_MIXER_LIBRARY}
-        ${OGG_LIBRARY}
-        ${PNG_LIBRARY}
         curl
     )
 
@@ -42,19 +32,11 @@ elseif(WIN32)
     if(MINGW)
         set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
         find_package(SDL3 CONFIG REQUIRED)
-        find_package(SDL3_image CONFIG REQUIRED)
-        find_package(SDL3_ttf CONFIG REQUIRED)
-        find_package(SDL3_mixer CONFIG REQUIRED)
         find_package(libcurl CONFIG REQUIRED)
-        find_package(freetype CONFIG REQUIRED)
 
         target_link_libraries(${PROJECT_NAME} PRIVATE
             SDL3::SDL3
-            SDL3::SDL3_image
-            SDL3::SDL3_ttf
-            SDL3::SDL3_mixer
             libcurl::libcurl
-            freetype
         )
     endif()
 endif()

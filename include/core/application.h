@@ -1,21 +1,15 @@
 #pragma once
 
-#include "window.h"
+struct AppMenuOpen {
+    bool show_demo_window = false;
+    bool show_settings_window = false;
+};
 
 class Application {
 private:
-    std::unique_ptr<Window> main_window;
+    AppMenuOpen app_menu_open;
 public:
-    template<typename T>
-    Application(std::unique_ptr<T> main_window): main_window(std::move(main_window)) {}
-
-    ~Application() = default;
-
-    void run();
-
-    static void init();
-
-    static int cleanup();
-
-    static void quit();
+    Application();
+    ~Application();
+    void render();
 };

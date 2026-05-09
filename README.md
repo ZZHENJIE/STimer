@@ -18,3 +18,8 @@ CompileFlags:
 ```bash
 brew install curl
 ```
+
+3. Build 命令
+```bash
+mkdir build && cd build && cmake .. && cmake --build .
+```

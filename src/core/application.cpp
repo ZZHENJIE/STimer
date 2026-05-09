@@ -1,41 +1,45 @@
-#include <SDL3/SDL_init.h>
-#include <SDL3/SDL_events.h>
-#include <SDL3/SDL_timer.h>
-#include <SDL3_ttf/SDL_ttf.h>
 #include "core/application.h"
-#include "core/httpclient.h"
-#include "curl/curl.h"
+#include "imgui/imgui.h"
+#include <SDL3/SDL_log.h>
+#include <cstddef>
 
-void Application::init(){
-    SDL_Init(SDL_INIT_VIDEO);
-    TTF_Init();
-    curl_global_init(CURL_GLOBAL_DEFAULT);
+Application::Application(){
+
 }
 
-int Application::cleanup(){
-    SDL_Quit();
-    TTF_Quit();
-    curl_global_cleanup();
-    return 0;
+Application::~Application(){
+
 }
 
-void Application::run(){
-    bool running = true;
-    while (running) {
-        SDL_Event event{};
-        while(SDL_PollEvent(&event)){
-            if(event.type == SDL_EVENT_QUIT){
-                running = false;
+void Application::render(){
+    if (ImGui::BeginMainMenuBar())
+    {
+        if (ImGui::BeginMenu("Tool"))
+        {
+            if (ImGui::MenuItem("Show Demo Window", nullptr,this->app_menu_open.show_demo_window)) {
+                this->app_menu_open.show_demo_window = !this->app_menu_open.show_demo_window;
             }
-            this->main_window->_update(event);
+            ImGui::EndMenu();
         }
-        this->main_window->_render();
-        HttpClient::instance().poll();
-        SDL_Delay(16);
+        if (ImGui::BeginMenu("Edit"))
+        {
+            if (ImGui::MenuItem("Undo", nullptr)) {
+                SDL_Log("Clicked Undo.");
+            }
+            if (ImGui::MenuItem("Redo", nullptr)) {}
+            ImGui::Separator();
+            if (ImGui::MenuItem("Cut", nullptr)) {}
+            if (ImGui::MenuItem("Copy", nullptr)) {}
+            if (ImGui::MenuItem("Paste", nullptr)) {}
+            ImGui::EndMenu();
+        }
+        ImGui::EndMainMenuBar();
     }
-}
+    if (this->app_menu_open.show_demo_window) {
+        ImGui::ShowDemoWindow(&this->app_menu_open.show_demo_window);
+    }
+    if(ImGui::Begin("Main")){
 
-void Application::quit() {
-    SDL_Event quitEvent{SDL_EVENT_QUIT};
-    SDL_PushEvent(&quitEvent);
+        ImGui::End();
+    }
 }
